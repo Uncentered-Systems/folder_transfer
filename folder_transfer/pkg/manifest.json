@@ -1,0 +1,14 @@
+[
+    {
+        "process_name": "folder_transfer",
+        "process_wasm_path": "/folder_transfer.wasm",
+        "on_exit": "Restart",
+        "request_networking": true,
+        "request_capabilities": [
+            "vfs:distro:sys",
+            "http_server:distro:sys"
+        ],
+        "grant_capabilities": [],
+        "public": true
+    }
+]

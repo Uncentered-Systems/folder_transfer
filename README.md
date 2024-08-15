@@ -20,10 +20,11 @@ Copy a folder you want to transfer into `home2/vfs/folder_transfer:astronaut.os/
 Then, in `node.os` terminal, run
 
 ```
-m our@folder_transfer:folder_transfer:astronaut.os '{"RequestFolderAction": {"node_id": "sour-cabbage.os", "folder": "some_folder"}}'
+m our@folder_transfer:folder_transfer:astronaut.os '{"RequestFolderAction": {"node_id": "sour-cabbage.os", "folder": "some_folder", "encrypt": false}}'
 ```
 
 Now, in `home/vfs/folder_transfer:astronaut.os/send_to` you should find `some_folder`.
+
 
 ## Explanation
 
@@ -32,3 +33,24 @@ Now, in `home/vfs/folder_transfer:astronaut.os/send_to` you should find `some_fo
 3. `node2.os` `folder_transfer` process spawns a sending worker, and initializes it with `InitializeSenderWorker`.
 4. `node2.os` `worker` process sends the folder to `node.os` `worker` process in chunks.
 5. Once the transfer is done, each worker sends a `WorkerStatus::Done` to the process that spawned it, and then terminates.
+
+
+## Encryption Toggle
+
+To encrypt the data before sending, set the `encrypt` field to `true`.
+In `node.os` terminal, run
+
+```
+m our@folder_transfer:folder_transfer:astronaut.os '{"RequestFolderAction": {"node_id": "sour-cabbage.os", "folder": "some_folder", "encrypt": true}}'
+```
+
+In `home/vfs/folder_transfer:astronaut.os/send_to` you should find a bunch of encrypted files.
+
+Then the receiver has to decrypt the data.
+In `node.os` terminal, run
+
+```
+m our@folder_transfer:folder_transfer:astronaut.os "DecryptFolder"
+```
+
+In `home/vfs/folder_transfer:astronaut.os/decrypt_to` you will find the decrypted files.
